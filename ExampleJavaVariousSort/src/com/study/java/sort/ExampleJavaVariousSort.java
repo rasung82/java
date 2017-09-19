@@ -1,4 +1,4 @@
-package com.smartdev.java.sort;
+package com.study.java.sort;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,11 +10,19 @@ public class ExampleJavaVariousSort {
 		final int[] numbers = {6, 5, 4, 8, 2, 11, 9};
 		//bubbleSort(numbers);
 		//insertSort(numbers);
-		//quickSort(numbers);
+		
+		List<Integer> numberList = new ArrayList<>();
+	    for(int number : numbers){
+	    	 numberList.add(number);
+	    }
+		numberList = quickSort(numberList);
+		for(Integer number : numberList){
+			System.out.print(number+" ");
+		}
 	}
 	
 	/**
-	 * 버블정렬
+	 * Bubble Sort
 	 * @param numbers
 	 */
 	public static void bubbleSort(final int[] numbers){
@@ -33,45 +41,49 @@ public class ExampleJavaVariousSort {
 		}while(isNumberSwitched);
 		
 		for(int number : numbers){
-			System.out.println(number);
+			System.out.print(number);
 		}
+		System.out.println();
 	}
 	
+	
 	/**
-	 * 삽입정렬
+	 * Insert Sort
 	 * @param numbers
 	 */
     public static void insertSort(final int[] numbers){
     	final List<Integer> sortedList  = new LinkedList<Integer>();
     	
-    	originalList: for(int number : numbers){
+    	label: 
+    	for(int number : numbers){
     		for(int i=0; i<sortedList.size(); i++){
     			if(number < sortedList.get(i)){
     				sortedList.add(i, number);
-    				continue originalList;
+    				continue label;
     			}
     		}
     		sortedList.add(sortedList.size(), number);
     	}
     	
     	for(Integer number : sortedList){
-    		System.out.println(number);
-    	}   	
+    		System.out.print(number);
+    	} 
+    	System.out.println();
 	}
     
+    
     /**
-     * 퀵정렬(피봇정렬)
+     * Quick Sort
      * @param numbers 
      */
     public static List<Integer> quickSort(final List<Integer> numbers){
-    	System.out.println("quickSort(" +numbers+ ")");
     	if(numbers!=null && numbers.size()<2){
     		return numbers;
     	}
     	
-    	int pivot = numbers.get(0);
-    	final List<Integer> lower  = new ArrayList<>();
-    	final List<Integer> higher = new ArrayList<>();
+    	int pivot = numbers.remove(0);
+    	List<Integer> lower  = new ArrayList<>();
+    	List<Integer> higher = new ArrayList<>();
     	
     	for(Integer number : numbers){
     		if(number < pivot){
@@ -80,10 +92,34 @@ public class ExampleJavaVariousSort {
     			higher.add(number);
     		}
     	}
+    	
+    	List<Integer> r1 = quickSort(lower);
+    	List<Integer> r2 = quickSort(higher);
     	   	
-    	return null;
-    			
+    	return merge(r1, r2, pivot);
 	}
+
+    /**
+     * Merge for Quick Sort
+     * @param lower
+     * @param higher
+     * @return
+     */
+    public static List<Integer> merge(final List<Integer> lower, final List<Integer> higher, int pivot){
+    	final List<Integer> sortedList = new ArrayList<Integer>();
+    	
+    	for(Integer number : lower){
+    		sortedList.add(number);
+    	}
+    	
+    	sortedList.add(pivot);
+    	
+    	for(Integer number : higher){
+    		sortedList.add(number);
+    	}
+    	
+    	return sortedList;
+    }
 
 }
 
